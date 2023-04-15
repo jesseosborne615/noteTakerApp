@@ -27,39 +27,43 @@ app.get('/notes', (req, res) => {
 
 
 app.get('/api/notes', (req, res) => {
-    res.json(db)
- 
+   
+    const jsonData = fs.readFileSync(path.join(__dirname, './db/db.json'), 'utf-8');
+    const parsedData = JSON.parse(jsonData);
+    res.send(parsedData);
 })
 
 app.post('/api/notes', (req, res) => {
-    res.json(db)
+    const jsonData = fs.readFileSync(path.join(__dirname, './db/db.json'), 'utf-8');
+    const parsedData = JSON.parse(jsonData);
+    
     
     let note = req.body
    
     note.id = uuidv4()
     console.log(note);
-    db.push(note);
-    fs.writeFile('./db/db.json', JSON.stringify(db), (err, data) => {
+    parsedData.push(note);
+    fs.writeFile('./db/db.json', JSON.stringify(parsedData), (err, data) => {
         if(err) throw err
         console.log('Note Saved');
-        res.json(db);
+        res.json(parsedData);
     } )
 })
 
-app.delete('/api/notes/:id', (req, res) => {
-    console.log(req.params.id)
+// app.delete('/api/notes/:id', (req, res) => {
+//     console.log(req.params.id)
 
-    let deleteNote = req.params.id
+//     let deleteNote = req.params.id
 
-    db.splice(deleteNote, 1)
-    fs.writeFile('./db/db.json', JSON.stringify(db), (err, data) => {
-        if(err) throw err
-        console.log('Note Saved');
-        res.json(db);
-    } )
-})
+//     db.splice(deleteNote, 1)
+//     fs.writeFile('./db/db.json', JSON.stringify(db), (err, data) => {
+//         if(err) throw err
+//         console.log('Note Saved');
+//         res.json(db);
+//     } )
+// })
 
-//
+
 
 
 
