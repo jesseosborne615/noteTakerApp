@@ -50,18 +50,20 @@ app.post('/api/notes', (req, res) => {
     } )
 })
 
-// app.delete('/api/notes/:id', (req, res) => {
-//     console.log(req.params.id)
+app.delete('/api/notes/:id', (req, res) => {
+    const jsonData = fs.readFileSync(path.join(__dirname, './db/db.json'), 'utf-8');
+    const parsedData = JSON.parse(jsonData);
+    console.log(req.params.id)
 
-//     let deleteNote = req.params.id
+    let deleteNote = req.params.id
 
-//     db.splice(deleteNote, 1)
-//     fs.writeFile('./db/db.json', JSON.stringify(db), (err, data) => {
-//         if(err) throw err
-//         console.log('Note Saved');
-//         res.json(db);
-//     } )
-// })
+    parsedData.splice(deleteNote, 1)
+    fs.writeFile('./db/db.json', JSON.stringify(parsedData), (err, data) => {
+        if(err) throw err
+        console.log('Note Saved');
+        res.json(parsedData);
+    } )
+})
 
 
 
